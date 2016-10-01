@@ -88,8 +88,8 @@
 
     </LinearLayout>
 
-    <ImageView android:id="@+id/imv" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+    <ImageView android:id="@+id/imv" android:layout_height="60dp" android:layout_width="40dp"/>
 
-    <ImageView android:id="@+id/player" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
+    <ImageView android:id="@+id/player" android:layout_height="60dp" android:layout_width="40dp"/>
 
 </FrameLayout>
