@@ -19,6 +19,7 @@ import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -45,10 +46,8 @@ public class Mainscreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DisplayMetrics me = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(me);
-
         newGame();
+
     }
 
     public class OnSwipeTouchListener implements OnTouchListener {
@@ -122,6 +121,13 @@ public class Mainscreen extends AppCompatActivity {
     public void newGame(){
         setContentView(R.layout.activity_mainscreen);
         img_animation = (ImageView) findViewById(R.id.player);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float screenWidth = metrics.widthPixels;
+        float screenHeigth = metrics.heightPixels;
+        float positionW0 = screenWidth/4*2;
+        float positionH0 = screenHeigth/4+(screenHeigth/4);
+
         FrameLayout fm = (FrameLayout) findViewById(R.id.main);
         fm.setOnTouchListener(new OnSwipeTouchListener(Mainscreen.this){
             public void onSwipeTop() {
@@ -140,10 +146,9 @@ public class Mainscreen extends AppCompatActivity {
         });
         whereIs=0;
         gameOn=true;
-
-        ObjectAnimator animation = ObjectAnimator.ofFloat(img_animation, "translationX", 550f, 550f);
+        ObjectAnimator animation = ObjectAnimator.ofFloat(img_animation, "translationX", positionW0, positionW0);
         animation.start();
-        ObjectAnimator anim = ObjectAnimator.ofFloat(img_animation, "translationY", 0f, 0f);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(img_animation, "translationY", positionH0, positionH0);
         anim.start();
         cars();
         gameSong = MediaPlayer.create(this, R.raw.song);
@@ -169,13 +174,11 @@ public class Mainscreen extends AppCompatActivity {
                             timer.purge();
                         }
                         newCar();
-
                     }
                 });
             }
         };
-        timer.schedule(timerTask, 0, 2000);
-
+        timer.schedule(timerTask, 0, 1000);
 
         timerTask = new TimerTask() {
             @Override
@@ -244,6 +247,7 @@ public class Mainscreen extends AppCompatActivity {
                 whereIs=0;
                 break;
         }
+
     }
 
     public void animateStreet(){
@@ -258,6 +262,8 @@ public class Mainscreen extends AppCompatActivity {
         animation.setDuration(2000);
         rocketAnimation.start();
     }
+
+
 
     public void newCar(){
         Random rnd = new Random();
@@ -318,8 +324,8 @@ public class Mainscreen extends AppCompatActivity {
                         }
                     }
                 });
-                break;
             }
+            break;
         }
 
     }
@@ -327,6 +333,7 @@ public class Mainscreen extends AppCompatActivity {
 public void endGame(Context context)
 {
     gameOn=false;
+
     gameSong.stop();
     brsound.start();
 
