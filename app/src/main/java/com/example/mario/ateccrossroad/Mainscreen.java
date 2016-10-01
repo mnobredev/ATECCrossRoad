@@ -42,10 +42,20 @@ public class Mainscreen extends AppCompatActivity {
     static ImageView img_animation;
     AnimationDrawable rocketAnimation;
     MediaPlayer gameSong, brsound;
+    float positionW0;
+    float positionH0;
+    float positionH1;
+    float positionH2;
+    float positionH3;
+    final int RIGHT=6;
+    final int LEFT=4;
+    final int UP=8;
+    final int DOWN=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_main);
         newGame();
 
     }
@@ -124,10 +134,12 @@ public class Mainscreen extends AppCompatActivity {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         float screenWidth = metrics.widthPixels;
-        float screenHeigth = metrics.heightPixels;
-        float positionW0 = screenWidth/4*2;
-        float positionH0 = screenHeigth/4+(screenHeigth/4);
-
+        float screenHeight = metrics.heightPixels;
+        float positionW0 = screenWidth/2;
+        positionH0 = 0f;
+        positionH1 = screenHeight/4;
+        positionH2 = (screenHeight/4)*2;
+        positionH3 = (screenHeight/4)*3;
         FrameLayout fm = (FrameLayout) findViewById(R.id.main);
         fm.setOnTouchListener(new OnSwipeTouchListener(Mainscreen.this){
             public void onSwipeTop() {
@@ -173,7 +185,7 @@ public class Mainscreen extends AppCompatActivity {
                             timer.cancel();
                             timer.purge();
                         }
-                        newCar();
+                        //newCar();
                     }
                 });
             }
@@ -205,42 +217,42 @@ public class Mainscreen extends AppCompatActivity {
         switch (whereIs){
 
             case 0:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", 0f, 100f);
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH0, positionH1);
                 animation.start();
                 animation.setDuration(500);
                 whereIs++;
                 break;
 
             case 1:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", 100f, 250f);
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH1, positionH2);
                 animation.start();
                 animation.setDuration(500);
                 whereIs++;
                 break;
 
             case 2:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", 250f, 400f);
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH2, positionH3);
                 animation.start();
                 animation.setDuration(500);
                 whereIs++;
                 break;
 
             case 3:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", 400f, 250f);
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH3, positionH2);
                 animation.start();
                 animation.setDuration(500);
                 whereIs++;
                 break;
 
             case 4:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", 250f, 100f);
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH2, positionH1);
                 animation.start();
                 animation.setDuration(500);
                 whereIs++;
                 break;
 
             case 5:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", 100f, 0f);
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH1, positionH0);
                 animation.start();
                 animation.setDuration(500);
                 points++;
@@ -276,9 +288,15 @@ public class Mainscreen extends AppCompatActivity {
                 final ImageView iv = new ImageView(this);
                 iv.setImageResource(R.drawable.car1);
                 FrameLayout fl = (FrameLayout) findViewById(R.id.main);
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
+                DisplayMetrics metrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                int screenWidth = metrics.widthPixels;
+                int myWidth = screenWidth/6;
+                int screenheight = metrics.heightPixels;
+                int myHeight = screenheight/6;
+                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(myWidth,myHeight);
                 fl.addView(iv,lp);
-                ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", 200f, 200f);
+                ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", positionH1, positionH1);
                 positionchange.start();
                 final ObjectAnimator animation = ObjectAnimator.ofFloat(iv, "translationX", -400f, 2000f);
                 animation.start();
@@ -287,8 +305,8 @@ public class Mainscreen extends AppCompatActivity {
                 animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+100), ((int)iv.getTranslationY()+50));
-                        r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+100), ((int)img_animation.getTranslationY()+200));
+                        r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+iv.getMeasuredWidth()), ((int)iv.getTranslationY()-iv.getMeasuredHeight()));
+                        r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+img_animation.getMeasuredWidth()), ((int)img_animation.getTranslationY()-img_animation.getMeasuredHeight()));
                         if(Rect.intersects(r1, r2) && gameOn==true)
                         {
                            endGame(context);
@@ -304,7 +322,7 @@ public class Mainscreen extends AppCompatActivity {
                 FrameLayout fl = (FrameLayout) findViewById(R.id.main);
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
                 fl.addView(iv,lp);
-                ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", 300f, 300f);
+                ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", positionH2, positionH2);
                 positionchange.start();
                 final ObjectAnimator animation = ObjectAnimator.ofFloat(iv, "translationX", 2000f, -400f);
                 animation.start();
@@ -317,6 +335,7 @@ public class Mainscreen extends AppCompatActivity {
 
 
                         r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+100), ((int)iv.getTranslationY()+50));
+
                         r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+100), ((int)img_animation.getTranslationY()+200));
                         if(Rect.intersects(r1, r2) && gameOn==true)
                         {
@@ -325,9 +344,7 @@ public class Mainscreen extends AppCompatActivity {
                     }
                 });
             }
-            break;
         }
-
     }
 
 public void endGame(Context context)
