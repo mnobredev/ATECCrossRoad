@@ -36,10 +36,6 @@ public class Mainscreen extends AppCompatActivity {
     float positionH1;
     float positionH2;
     float positionH3;
-    final int RIGHT=6;
-    final int LEFT=4;
-    final int UP=8;
-    final int DOWN=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,10 +126,17 @@ public class Mainscreen extends AppCompatActivity {
         positionH3 = (screenHeight/4)*3;
         FrameLayout fm = (FrameLayout) findViewById(R.id.main);
         fm.setOnTouchListener(new OnSwipeTouchListener(Mainscreen.this){
+
             ObjectAnimator animation;
             ImageView img_animation = (ImageView) findViewById(R.id.player);
+
             public void onSwipeTop() {
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", img_animation.getTranslationY(), img_animation.getTranslationY()-positionH1);
+                float fromY = img_animation.getTranslationY();
+                float toY = img_animation.getTranslationY()-positionH1;
+                if (toY<=0){
+                    toY=0;
+                }
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", fromY, toY);
                 animation.start();
                 animation.setDuration(500);
             }
@@ -342,35 +345,20 @@ public class Mainscreen extends AppCompatActivity {
         }
     }
 
-public void endGame(Context context)
-{
-    gameOn=false;
-    gameSong.stop();
-    brsound.start();
+    public void endGame(Context context)
+    {
+        gameOn=false;
+        gameSong.stop();
+        brsound.start();
 
-    new AlertDialog.Builder(context)
-            .setTitle("Sanguinetti was Wrecked!")
-            .setMessage("He was able to develop Bubbly Invasion but he couldn't cross the road!\nYou scored "+points+" points!\nWould you like to play again?")
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Mainscreen.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                }
-            })
-            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Mainscreen.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                }
-            })
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show();
-}
+
+        Intent intent = new Intent(Mainscreen.this, EndActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.putExtra("score", Integer.toString(points));
+        startActivity(intent);
+
+    }
 
 }
