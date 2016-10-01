@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +45,9 @@ public class Mainscreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DisplayMetrics me = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(me);
+
         newGame();
     }
 
@@ -136,6 +140,7 @@ public class Mainscreen extends AppCompatActivity {
         });
         whereIs=0;
         gameOn=true;
+
         ObjectAnimator animation = ObjectAnimator.ofFloat(img_animation, "translationX", 550f, 550f);
         animation.start();
         ObjectAnimator anim = ObjectAnimator.ofFloat(img_animation, "translationY", 0f, 0f);
@@ -164,29 +169,13 @@ public class Mainscreen extends AppCompatActivity {
                             timer.purge();
                         }
                         newCar();
-                       // newCarup();
+
                     }
                 });
             }
         };
         timer.schedule(timerTask, 0, 2000);
 
-       /* timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                       // newCardown();
-                        if (gameOn==false){
-                            timer.cancel();
-                            timer.purge();
-                        }
-                    }
-                });
-            }
-        };
-        timer.schedule(timerTask, 0, 1500);*/
 
         timerTask = new TimerTask() {
             @Override
@@ -255,7 +244,6 @@ public class Mainscreen extends AppCompatActivity {
                 whereIs=0;
                 break;
         }
-
     }
 
     public void animateStreet(){
@@ -271,11 +259,9 @@ public class Mainscreen extends AppCompatActivity {
         rocketAnimation.start();
     }
 
-
-
     public void newCar(){
         Random rnd = new Random();
-        int r = rnd.nextInt(1);
+        int r = rnd.nextInt(2);
 
         switch (r)
         {
@@ -303,6 +289,7 @@ public class Mainscreen extends AppCompatActivity {
                         }
                     }
                 });
+                break;
             }
             case 1:
             {
@@ -331,64 +318,15 @@ public class Mainscreen extends AppCompatActivity {
                         }
                     }
                 });
+                break;
             }
         }
 
     }
-/*
-    public void newCarup(){
-        final ImageView iv = new ImageView(this);
-        iv.setImageResource(R.drawable.car1);
-        FrameLayout fl = (FrameLayout) findViewById(R.id.main);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
-        fl.addView(iv,lp);
-        ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", 200f, 200f);
-        positionchange.start();
-        final ObjectAnimator animation = ObjectAnimator.ofFloat(iv, "translationX", -400f, 2000f);
-        animation.start();
-        animation.setDuration(7000);
-        final Context context = this;
-
-        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+100), ((int)iv.getTranslationY()+50));
-                r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+100), ((int)img_animation.getTranslationY()+200));
-                if(Rect.intersects(r1, r2) && gameOn==true)
-                {
-                    gameOn=false;
-                    FrameLayout getFrame = (FrameLayout) findViewById(R.id.main);
-                    gameSong.stop();
-                    brsound.start();
-
-                    new AlertDialog.Builder(context)
-                            .setTitle("Sanguinetti was Wrecked!")
-                            .setMessage("He was able to develop Bubbly Invasion but he couldn't cross the road!\nYou scored "+points+" points!\nWould you like to play again?")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    newGame();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(Intent.ACTION_MAIN);
-                                    intent.addCategory(Intent.CATEGORY_HOME);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-            }
-        });
-
-    }*/
 
 public void endGame(Context context)
 {
     gameOn=false;
-
     gameSong.stop();
     brsound.start();
 
@@ -411,57 +349,5 @@ public void endGame(Context context)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show();
 }
-
-    /*public void newCardown(){
-        final ImageView iv = new ImageView(this);
-        iv.setImageResource(R.drawable.car2);
-        final ObjectAnimator animation;
-        FrameLayout fl = (FrameLayout) findViewById(R.id.main);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
-        fl.addView(iv,lp);
-        ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", 300f, 300f);
-        positionchange.start();
-        animation = ObjectAnimator.ofFloat(iv, "translationX", 2000f, -400f);
-        animation.start();
-        animation.setDuration(7000);
-        final Context context = this;
-
-        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-
-
-                r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+100), ((int)iv.getTranslationY()+50));
-                r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+100), ((int)img_animation.getTranslationY()+200));
-                if(Rect.intersects(r1, r2) && gameOn==true)
-                {
-                    gameOn=false;
-                    gameSong.stop();
-                    brsound.start();
-
-                    new AlertDialog.Builder(context)
-                            .setTitle("Sanguinetti was Wrecked!")
-                            .setMessage("He was able to develop Bubbly Invasion but he couldn't cross the road!\nYou scored "+points+" points!\nWould you like to play again?")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    newGame();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(Intent.ACTION_MAIN);
-                                    intent.addCategory(Intent.CATEGORY_HOME);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-            }
-        });
-    }*/
-
-
 
 }
