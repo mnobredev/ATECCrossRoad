@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.gesture.Gesture;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -14,13 +15,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 import java.util.Timer;
 import java.util.TimerTask;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 public class Mainscreen extends AppCompatActivity {
 
@@ -32,21 +39,104 @@ public class Mainscreen extends AppCompatActivity {
     AnimationDrawable rocketAnimation;
     MediaPlayer gameSong, brsound;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mainscreen);
         newGame();
     }
 
+    public class OnSwipeTouchListener implements OnTouchListener {
+
+        private final GestureDetector gestureDetector;
+
+        public OnSwipeTouchListener (Context ctx){
+            gestureDetector = new GestureDetector(ctx, new GestureListener());
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return gestureDetector.onTouchEvent(event);
+        }
+
+        private final class GestureListener extends SimpleOnGestureListener {
+
+            private static final int SWIPE_THRESHOLD = 100;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                boolean result = false;
+                try {
+                    float diffY = e2.getY() - e1.getY();
+                    float diffX = e2.getX() - e1.getX();
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                            if (diffX > 0) {
+                                onSwipeRight();
+                            } else {
+                                onSwipeLeft();
+                            }
+                        }
+                        result = true;
+                    }
+                    else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            onSwipeBottom();
+                        } else {
+                            onSwipeTop();
+                        }
+                    }
+                    result = true;
+
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                return result;
+            }
+        }
+
+        public void onSwipeRight() {
+        }
+
+        public void onSwipeLeft() {
+        }
+
+        public void onSwipeTop() {
+        }
+
+        public void onSwipeBottom() {
+        }
+    }
+
     public void newGame(){
+        setContentView(R.layout.activity_mainscreen);
+        img_animation = (ImageView) findViewById(R.id.player);
+        FrameLayout fm = (FrameLayout) findViewById(R.id.main);
+        fm.setOnTouchListener(new OnSwipeTouchListener(Mainscreen.this){
+            public void onSwipeTop() {
+                Toast.makeText(Mainscreen.this, "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(Mainscreen.this, "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(Mainscreen.this, "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(Mainscreen.this, "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+        });
         whereIs=0;
         gameOn=true;
-        img_animation = (ImageView) findViewById(R.id.player);
-        ObjectAnimator animation = ObjectAnimator.ofFloat(img_animation, "translationX", 0f, 550f);
+        ObjectAnimator animation = ObjectAnimator.ofFloat(img_animation, "translationX", 550f, 550f);
         animation.start();
-        ObjectAnimator anim = ObjectAnimator.ofFloat(img_animation, "translationy", 0f, 0f);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(img_animation, "translationY", 0f, 0f);
         anim.start();
         cars();
         gameSong = MediaPlayer.create(this, R.raw.song);
@@ -199,6 +289,7 @@ public class Mainscreen extends AppCompatActivity {
                 if(Rect.intersects(r1, r2) && gameOn==true)
                 {
                     gameOn=false;
+                    FrameLayout getFrame = (FrameLayout) findViewById(R.id.main);
                     gameSong.stop();
                     brsound.start();
 
@@ -220,12 +311,6 @@ public class Mainscreen extends AppCompatActivity {
                             })
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-
-                    /* TESTE DE COLISAO
-                    System.out.println(""+iv.getTranslationX()+" "+iv.getTranslationY()+" "+((int)iv.getTranslationX()+100)+" "+((int)iv.getTranslationY()+50)+" CAMION");
-                    System.out.println(""+img_animation.getTranslationX()+" "+img_animation.getTranslationY()+" "+((int)img_animation.getTranslationX()+100)+" "+((int)img_animation.getTranslationY()+100)+" SANGUI");
-                    Toast.makeText(MainActivity.this, "PERDEU", Toast.LENGTH_SHORT).show();
-                    */
                 }
             }
         });

@@ -6,89 +6,88 @@
     android:id="@+id/main"
     tools:context="com.example.mario.ateccrossroad.Mainscreen">
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-    -<LinearLayout android:layout_height="match_parent" android:id="@+id/fullscreen_content" android:layout_width="match_parent" android:onClick="move">
+    <LinearLayout android:layout_height="match_parent" android:id="@+id/fullscreen_content" android:layout_width="match_parent" >
 
 
-    -<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
+    <LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
 
-    <ImageView android:id="@+id/a1" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+        <ImageView android:id="@+id/a1" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
 
-    <ImageView android:id="@+id/b1" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
+        <ImageView android:id="@+id/b1" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
 
-    <ImageView android:id="@+id/c1" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
+        <ImageView android:id="@+id/c1" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
 
-    <ImageView android:id="@+id/d1" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+        <ImageView android:id="@+id/d1" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
 
-</LinearLayout>
-
-
-    -<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
-
-    <ImageView android:id="@+id/a2" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/b2" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/c2" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/d2" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-</LinearLayout>
-
-
-    -<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
-
-    <ImageView android:id="@+id/a3" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/b3" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/c3" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/d3" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-</LinearLayout>
-
-
-    -<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
-
-    <ImageView android:id="@+id/a4" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/b4" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/c4" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/d4" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-</LinearLayout>
-
-
-    -<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
-
-    <ImageView android:id="@+id/a5" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/b5" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/c5" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/d5" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-</LinearLayout>
-
-
-    -<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
-
-    <ImageView android:id="@+id/a6" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/b6" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/c6" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
-
-    <ImageView android:id="@+id/d6" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
-
-</LinearLayout>
     </LinearLayout>
+
+
+    <LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
+
+        <ImageView android:id="@+id/a2" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/b2" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/c2" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/d2" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
+
+        <ImageView android:id="@+id/a3" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/b3" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/c3" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/d3" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
+
+        <ImageView android:id="@+id/a4" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/b4" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/c4" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/d4" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
+
+        <ImageView android:id="@+id/a5" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/b5" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/c5" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/d5" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:layout_weight="1">
+
+        <ImageView android:id="@+id/a6" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/b6" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roadup" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/c6" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/roaddown" android:scaleType="fitXY"/>
+
+        <ImageView android:id="@+id/d6" android:layout_height="match_parent" android:layout_width="match_parent" android:layout_weight="1" android:src="@drawable/sidewalk" android:scaleType="fitXY"/>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
     <ImageView android:id="@+id/imv" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
 
     <ImageView android:id="@+id/player" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
