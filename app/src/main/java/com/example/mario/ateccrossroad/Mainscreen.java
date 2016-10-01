@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.gesture.Gesture;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.PaintDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +21,7 @@ import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -185,7 +188,7 @@ public class Mainscreen extends AppCompatActivity {
                             timer.cancel();
                             timer.purge();
                         }
-                        //newCar();
+                        newCar();
                     }
                 });
             }
@@ -288,13 +291,7 @@ public class Mainscreen extends AppCompatActivity {
                 final ImageView iv = new ImageView(this);
                 iv.setImageResource(R.drawable.car1);
                 FrameLayout fl = (FrameLayout) findViewById(R.id.main);
-                DisplayMetrics metrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                int screenWidth = metrics.widthPixels;
-                int myWidth = screenWidth/6;
-                int screenheight = metrics.heightPixels;
-                int myHeight = screenheight/6;
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(myWidth,myHeight);
+                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
                 fl.addView(iv,lp);
                 ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", positionH1, positionH1);
                 positionchange.start();
@@ -305,8 +302,8 @@ public class Mainscreen extends AppCompatActivity {
                 animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+iv.getMeasuredWidth()), ((int)iv.getTranslationY()-iv.getMeasuredHeight()));
-                        r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+img_animation.getMeasuredWidth()), ((int)img_animation.getTranslationY()-img_animation.getMeasuredHeight()));
+                        r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+iv.getMeasuredWidth()), ((int)iv.getTranslationY()+iv.getMeasuredHeight()));
+                        r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+img_animation.getMeasuredWidth()), ((int)img_animation.getTranslationY()+img_animation.getMeasuredHeight()));
                         if(Rect.intersects(r1, r2) && gameOn==true)
                         {
                            endGame(context);
@@ -334,9 +331,8 @@ public class Mainscreen extends AppCompatActivity {
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
 
 
-                        r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+100), ((int)iv.getTranslationY()+50));
-
-                        r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+100), ((int)img_animation.getTranslationY()+200));
+                        r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+iv.getMeasuredWidth()), ((int)iv.getTranslationY()+iv.getMeasuredHeight()));
+                        r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+img_animation.getMeasuredWidth()), ((int)img_animation.getTranslationY()+img_animation.getMeasuredHeight()));
                         if(Rect.intersects(r1, r2) && gameOn==true)
                         {
                            endGame(context);
