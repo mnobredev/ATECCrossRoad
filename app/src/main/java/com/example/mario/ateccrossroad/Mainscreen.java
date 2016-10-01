@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.gesture.Gesture;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.PaintDrawable;
@@ -40,8 +41,6 @@ public class Mainscreen extends AppCompatActivity {
 
     public int whereIs, points;
     public boolean gameOn;
-    static Rect r1 = new Rect();
-    static Rect r2 = new Rect();
     static ImageView img_animation;
     AnimationDrawable rocketAnimation;
     MediaPlayer gameSong, brsound;
@@ -283,6 +282,8 @@ public class Mainscreen extends AppCompatActivity {
     public void newCar(){
         Random rnd = new Random();
         int r = rnd.nextInt(2);
+        final Rect r1 = new Rect();
+        final Rect r2 = new Rect();
 
         switch (r)
         {
@@ -290,7 +291,7 @@ public class Mainscreen extends AppCompatActivity {
             {
                 final ImageView iv = new ImageView(this);
                 iv.setImageResource(R.drawable.car1);
-                FrameLayout fl = (FrameLayout) findViewById(R.id.main);
+                final FrameLayout fl = (FrameLayout) findViewById(R.id.main);
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
                 fl.addView(iv,lp);
                 ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", positionH1, positionH1);
@@ -306,7 +307,7 @@ public class Mainscreen extends AppCompatActivity {
                         r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+img_animation.getMeasuredWidth()), ((int)img_animation.getTranslationY()+img_animation.getMeasuredHeight()));
                         if(Rect.intersects(r1, r2) && gameOn==true)
                         {
-                           endGame(context);
+                            endGame(context);
                         }
                     }
                 });
@@ -346,7 +347,6 @@ public class Mainscreen extends AppCompatActivity {
 public void endGame(Context context)
 {
     gameOn=false;
-
     gameSong.stop();
     brsound.start();
 
