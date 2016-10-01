@@ -1,0 +1,6 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:visible="true">
+    <item android:drawable="@drawable/charm1" android:duration="200" />
+    <item android:drawable="@drawable/charm2" android:duration="200" />
+    <item android:drawable="@drawable/charm3" android:duration="200" />
+</animation-list>

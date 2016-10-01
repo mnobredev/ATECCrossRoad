@@ -1,0 +1,6 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:visible="true">
+    <item android:drawable="@drawable/sangui1" android:duration="200" />
+    <item android:drawable="@drawable/sangui2" android:duration="200" />
+    <item android:drawable="@drawable/sangui3" android:duration="200" />
+</animation-list>
