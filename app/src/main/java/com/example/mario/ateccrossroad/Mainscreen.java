@@ -41,7 +41,6 @@ public class Mainscreen extends AppCompatActivity {
 
     public int whereIs, points;
     public boolean gameOn;
-    static ImageView img_animation;
     AnimationDrawable rocketAnimation;
     MediaPlayer gameSong, brsound;
     float positionW0;
@@ -132,12 +131,12 @@ public class Mainscreen extends AppCompatActivity {
 
     public void newGame(){
         setContentView(R.layout.activity_mainscreen);
-        img_animation = (ImageView) findViewById(R.id.player);
+        ImageView img_animation = (ImageView) findViewById(R.id.player);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         float screenWidth = metrics.widthPixels;
         float screenHeight = metrics.heightPixels;
-        float positionW0 = screenWidth/2;
+        positionW0 = screenWidth/2;
         positionH0 = 0f;
         positionH1 = screenHeight/4;
         positionH2 = (screenHeight/4)*2;
@@ -169,6 +168,7 @@ public class Mainscreen extends AppCompatActivity {
         brsound = MediaPlayer.create( this, R.raw.breaksound);
         gameSong.start();
         img_animation.setBackgroundResource(R.drawable.playeranime);
+
         rocketAnimation = (AnimationDrawable) img_animation.getBackground();
         rocketAnimation.start();
     }
@@ -193,7 +193,6 @@ public class Mainscreen extends AppCompatActivity {
             }
         };
         timer.schedule(timerTask, 0, 1000);
-
         timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -215,6 +214,8 @@ public class Mainscreen extends AppCompatActivity {
     public void move(View view){
 
         ObjectAnimator animation;
+        ImageView img_animation = (ImageView) findViewById(R.id.player);
+
 
         switch (whereIs){
 
@@ -284,7 +285,7 @@ public class Mainscreen extends AppCompatActivity {
         int r = rnd.nextInt(2);
         final Rect r1 = new Rect();
         final Rect r2 = new Rect();
-
+        final ImageView img_animation = (ImageView) findViewById(R.id.player);
         switch (r)
         {
             case 0:
@@ -296,17 +297,16 @@ public class Mainscreen extends AppCompatActivity {
                 fl.addView(iv,lp);
                 ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", positionH1, positionH1);
                 positionchange.start();
-                final ObjectAnimator animation = ObjectAnimator.ofFloat(iv, "translationX", -400f, 2000f);
+                final ObjectAnimator animation = ObjectAnimator.ofFloat(iv, "translationX", -400f, positionW0*2);
                 animation.start();
-                animation.setDuration(7000);
+                animation.setDuration(2000);
                 final Context context = this;
                 animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
                         r1.set((int)iv.getTranslationX(), (int)iv.getTranslationY(), ((int)iv.getTranslationX()+iv.getMeasuredWidth()), ((int)iv.getTranslationY()+iv.getMeasuredHeight()));
                         r2.set((int)img_animation.getTranslationX(), (int)img_animation.getTranslationY(), ((int)img_animation.getTranslationX()+img_animation.getMeasuredWidth()), ((int)img_animation.getTranslationY()+img_animation.getMeasuredHeight()));
-                        if(Rect.intersects(r1, r2) && gameOn==true)
-                        {
+                        if(Rect.intersects(r1, r2) && gameOn==true) {
                             endGame(context);
                         }
                     }
@@ -322,9 +322,9 @@ public class Mainscreen extends AppCompatActivity {
                 fl.addView(iv,lp);
                 ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", positionH2, positionH2);
                 positionchange.start();
-                final ObjectAnimator animation = ObjectAnimator.ofFloat(iv, "translationX", 2000f, -400f);
+                final ObjectAnimator animation = ObjectAnimator.ofFloat(iv, "translationX", positionW0*2, -400f);
                 animation.start();
-                animation.setDuration(7000);
+                animation.setDuration(2000);
                 final Context context = this;
 
                 animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -355,7 +355,11 @@ public void endGame(Context context)
             .setMessage("He was able to develop Bubbly Invasion but he couldn't cross the road!\nYou scored "+points+" points!\nWould you like to play again?")
             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    newGame();
+                    Intent intent = new Intent(Mainscreen.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                 }
             })
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
