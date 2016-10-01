@@ -123,24 +123,36 @@ public class Mainscreen extends AppCompatActivity {
         float screenWidth = metrics.widthPixels;
         float screenHeight = metrics.heightPixels;
         positionW0 = screenWidth/2;
+        final float position = screenWidth/6;
         positionH0 = 0f;
         positionH1 = screenHeight/4;
         positionH2 = (screenHeight/4)*2;
         positionH3 = (screenHeight/4)*3;
         FrameLayout fm = (FrameLayout) findViewById(R.id.main);
         fm.setOnTouchListener(new OnSwipeTouchListener(Mainscreen.this){
+            ObjectAnimator animation;
+            ImageView img_animation = (ImageView) findViewById(R.id.player);
             public void onSwipeTop() {
-                Toast.makeText(Mainscreen.this, "top", Toast.LENGTH_SHORT).show();
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", img_animation.getTranslationY(), img_animation.getTranslationY()-positionH1);
+                animation.start();
+                animation.setDuration(500);
             }
             public void onSwipeRight() {
-                Toast.makeText(Mainscreen.this, "right", Toast.LENGTH_SHORT).show();
+                animation = ObjectAnimator.ofFloat(img_animation, "translationX", img_animation.getTranslationX(), img_animation.getTranslationX()+position);
+                animation.start();
+                animation.setDuration(500);
             }
             public void onSwipeLeft() {
-                Toast.makeText(Mainscreen.this, "left", Toast.LENGTH_SHORT).show();
+                animation = ObjectAnimator.ofFloat(img_animation, "translationX", img_animation.getTranslationX(), img_animation.getTranslationX()-position);
+                animation.start();
+                animation.setDuration(500);
             }
             public void onSwipeBottom() {
-                Toast.makeText(Mainscreen.this, "bottom", Toast.LENGTH_SHORT).show();
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", img_animation.getTranslationY(), img_animation.getTranslationY()+positionH1);
+                animation.start();
+                animation.setDuration(500);
             }
+
 
         });
         whereIs=0;
