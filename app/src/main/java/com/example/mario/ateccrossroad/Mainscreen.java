@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +42,23 @@ public class Mainscreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         newGame();
+    }
+
+    @Override
+    public void onBackPressed() {
+            if (exit) {
+                finish();
+            } else {
+                Toast.makeText(this, "Back again to Exit.",
+                        Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        exit = false;
+                    }
+                }, 3 * 1000);
+            }
     }
 
     public class OnSwipeTouchListener implements OnTouchListener {
@@ -124,6 +142,7 @@ public class Mainscreen extends AppCompatActivity {
         stepH = screenHeight/4;
         lastW = screenWidth-stepW;
         lastH = screenHeight-stepH;
+        points = 0;
         FrameLayout fm = (FrameLayout) findViewById(R.id.main);
         fm.setOnTouchListener(new OnSwipeTouchListener(Mainscreen.this){
 
@@ -133,6 +152,10 @@ public class Mainscreen extends AppCompatActivity {
             public void onSwipeTop() {
                 float fromY = img_animation.getTranslationY();
                 float toY = img_animation.getTranslationY()-stepH;
+                if (whereIs==1 && toY<=stepH){
+                    points++;
+                    whereIs=0;
+                }
                 if (toY<=0){
                     toY=0;
                 }
@@ -163,6 +186,10 @@ public class Mainscreen extends AppCompatActivity {
             public void onSwipeBottom() {
                 float fromY = img_animation.getTranslationY();
                 float toY = img_animation.getTranslationY()+stepH;
+                if (whereIs==0 && toY>=lastH){
+                    points++;
+                    whereIs=1;
+                }
                 if (toY>=lastH){
                     toY=lastH;
                 }
