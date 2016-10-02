@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/road"
     tools:context="com.example.mario.ateccrossroad.MainActivity">
 
     <LinearLayout
@@ -39,10 +40,24 @@
 
     </LinearLayout>
 
-    <LinearLayout
+
+
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_above="@+id/linearLayout">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo"/>
+
 
         <ImageButton
 
@@ -50,28 +65,51 @@
             android:layout_height="wrap_content"
             android:id="@+id/sangui"
             android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/sangui1"
+
           />
+
+        <ImageButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:id="@+id/dario"
+            android:layout_marginBottom="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+
+            android:background="@drawable/dario"
+            />
+
+        <TextView
+            android:id="@+id/proftext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textStyle="italic"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <ImageButton
             android:id="@+id/nsilva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_weight="1"
-            android:layout_gravity="center"
-        />
-
-        <ImageButton
-
-            android:layout_width="wrap_content"
-            android:layout_height="94dp"
             android:layout_gravity="bottom"
-            android:id="@+id/dario"
-            android:layout_weight="1"
-            />
+            android:background="@drawable/charm1"
+            android:layout_alignBottom="@+id/sangui"
+            android:layout_centerHorizontal="true" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

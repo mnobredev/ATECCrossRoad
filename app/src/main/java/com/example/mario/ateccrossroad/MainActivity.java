@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,19 +16,25 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btSangui;
     ImageButton btSilva;
     ImageButton btDario;
+    TextView txtprof;
     int escolha=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        txtprof = (TextView) findViewById(R.id.proftext);
         btPlay = (Button) findViewById(R.id.btPlay);
         btPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(escolha==0)
+                {
+                    txtprof.setText("Tem de escolher um professor");
+
+                }
                 Intent intent = new Intent(MainActivity.this, Mainscreen.class);
-                intent.putExtra("Escolha",escolha);
+               // intent.putExtra("Escolha",escolha);
                 startActivity(intent);
 
             }
@@ -36,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 escolha=1;
+                txtprof.setText("David Sanguinetti");
             }
         });
 
@@ -44,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 escolha=2;
+                txtprof.setText("Nuno Silva");
             }
         });
 
@@ -52,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 escolha=3;
+                txtprof.setText("Dario Quental");
             }
         });
 

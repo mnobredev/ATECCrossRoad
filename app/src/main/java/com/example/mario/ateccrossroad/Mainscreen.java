@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,10 +38,13 @@ public class Mainscreen extends AppCompatActivity {
     float stepH, stepW;
     float screenHeight, screenWidth;
     private Boolean exit = false;
+   // Intent last = getIntent(); not working - crashing actually
+   // Bundle b = last.getExtras();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         newGame();
     }
 
@@ -128,7 +132,101 @@ public class Mainscreen extends AppCompatActivity {
         public void onSwipeBottom() {
         }
     }
+    public void newGame(){
+        setContentView(R.layout.activity_mainscreen);
+        ImageView img_animation = (ImageView) findViewById(R.id.player);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenWidth = metrics.widthPixels;
+        screenHeight = metrics.heightPixels;
+        positionW0 = screenWidth/2;
+        positionH0 = 0f;
+        stepW = screenWidth/6;
+        stepH = screenHeight/4;
+        lastW = screenWidth-stepW;
+        lastH = screenHeight-stepH;
+        points = 0;
+        FrameLayout fm = (FrameLayout) findViewById(R.id.main);
+        fm.setOnTouchListener(new OnSwipeTouchListener(Mainscreen.this){
 
+            ObjectAnimator animation;
+            ImageView img_animation = (ImageView) findViewById(R.id.player);
+
+            public void onSwipeTop() {
+                float fromY = img_animation.getTranslationY();
+                float toY = img_animation.getTranslationY()-stepH;
+                if (whereIs==1 && toY<=stepH){
+                    points++;
+                    whereIs=0;
+                }
+                if (toY<=0){
+                    toY=0;
+                }
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", fromY, toY);
+                animation.start();
+                animation.setDuration(500);
+            }
+            public void onSwipeRight() {
+                float fromX = img_animation.getTranslationX();
+                float toX = img_animation.getTranslationX()+stepW;
+                if (toX>=lastW){
+                    toX=lastW;
+                }
+                animation = ObjectAnimator.ofFloat(img_animation, "translationX", fromX, toX);
+                animation.start();
+                animation.setDuration(500);
+            }
+            public void onSwipeLeft() {
+                float fromX = img_animation.getTranslationX();
+                float toX = img_animation.getTranslationX()-stepW;
+                if (toX<=0){
+                    toX=0;
+                }
+                animation = ObjectAnimator.ofFloat(img_animation, "translationX", fromX, toX);
+                animation.start();
+                animation.setDuration(500);
+            }
+            public void onSwipeBottom() {
+                float fromY = img_animation.getTranslationY();
+                float toY = img_animation.getTranslationY()+stepH;
+                if (whereIs==0 && toY>=lastH){
+                    points++;
+                    whereIs=1;
+                }
+                if (toY>=lastH){
+                    toY=lastH;
+                }
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", fromY, toY);
+                animation.start();
+                animation.setDuration(500);
+            }
+
+
+        });
+        whereIs=0;
+        gameOn=true;
+        ObjectAnimator animation = ObjectAnimator.ofFloat(img_animation, "translationX", positionW0, positionW0);
+        animation.start();
+        ObjectAnimator anim = ObjectAnimator.ofFloat(img_animation, "translationY", positionH0, positionH0);
+        anim.start();
+        cars();
+        gameSong = MediaPlayer.create(this, R.raw.song);
+        brsound = MediaPlayer.create( this, R.raw.breaksound);
+        gameSong.start();
+
+
+
+    img_animation.setBackgroundResource(R.drawable.playeranime);
+
+        rocketAnimation = (AnimationDrawable) img_animation.getBackground();
+        rocketAnimation.start();
+    }
+
+
+
+
+
+/*
     public void newGame(){
         setContentView(R.layout.activity_mainscreen);
         ImageView img_animation = (ImageView) findViewById(R.id.player);
@@ -215,7 +313,7 @@ public class Mainscreen extends AppCompatActivity {
         rocketAnimation = (AnimationDrawable) img_animation.getBackground();
         rocketAnimation.start();
     }
-
+*/
     public void cars(){
 
         final Timer timer = new Timer();
