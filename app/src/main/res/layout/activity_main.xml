@@ -102,7 +102,6 @@
             android:id="@+id/nsilva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_gravity="bottom"
             android:background="@drawable/charm1"
             android:layout_alignBottom="@+id/sangui"

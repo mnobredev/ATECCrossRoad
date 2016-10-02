@@ -11,6 +11,7 @@ public class EndActivity extends AppCompatActivity {
 
     Button btExit, btRetry;
     TextView tvScore;
+    int lastPlayed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,8 @@ public class EndActivity extends AppCompatActivity {
         String score = null;
         Intent intent = getIntent();
         score  = intent.getStringExtra("score");
+        lastPlayed = 0;
+        lastPlayed  = intent.getIntExtra("Escolha", lastPlayed);
         tvScore.setText("My score"+"\n"+score);
 
         btRetry.setOnClickListener(new View.OnClickListener() {
@@ -31,6 +34,7 @@ public class EndActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("Escolha",lastPlayed);
                 startActivity(intent);
 
             }

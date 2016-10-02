@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         txtprof = (TextView) findViewById(R.id.proftext);
         btPlay = (Button) findViewById(R.id.btPlay);
         btPlay.setOnClickListener(new View.OnClickListener() {
@@ -33,10 +32,11 @@ public class MainActivity extends AppCompatActivity {
                     txtprof.setText("Tem de escolher um professor");
 
                 }
-                Intent intent = new Intent(MainActivity.this, Mainscreen.class);
-               // intent.putExtra("Escolha",escolha);
-                startActivity(intent);
-
+                else {
+                    Intent intent = new Intent(MainActivity.this, Mainscreen.class);
+                    intent.putExtra("Escolha", escolha);
+                    startActivity(intent);
+                }
             }
         });
 
