@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,20 +32,33 @@ public class Mainscreen extends AppCompatActivity {
     public boolean gameOn;
     AnimationDrawable rocketAnimation;
     MediaPlayer gameSong, brsound;
-    float positionW0;
-    float positionH0;
-    float positionH1;
-    float positionH2;
-    float positionH3;
-    final int RIGHT=6;
-    final int LEFT=4;
-    final int UP=8;
-    final int DOWN=2;
+    float positionW0, positionH0;
+    float lastW, lastH;
+    float stepH, stepW;
+    float screenHeight, screenWidth;
+    private Boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         newGame();
+    }
+
+    @Override
+    public void onBackPressed() {
+            if (exit) {
+                finish();
+            } else {
+                Toast.makeText(this, "Back again to Exit.",
+                        Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        exit = false;
+                    }
+                }, 3 * 1000);
+            }
     }
 
     public class OnSwipeTouchListener implements OnTouchListener {
@@ -120,35 +134,66 @@ public class Mainscreen extends AppCompatActivity {
         ImageView img_animation = (ImageView) findViewById(R.id.player);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        float screenWidth = metrics.widthPixels;
-        float screenHeight = metrics.heightPixels;
+        screenWidth = metrics.widthPixels;
+        screenHeight = metrics.heightPixels;
         positionW0 = screenWidth/2;
-        final float position = screenWidth/6;
         positionH0 = 0f;
-        positionH1 = screenHeight/4;
-        positionH2 = (screenHeight/4)*2;
-        positionH3 = (screenHeight/4)*3;
+        stepW = screenWidth/6;
+        stepH = screenHeight/4;
+        lastW = screenWidth-stepW;
+        lastH = screenHeight-stepH;
+        points = 0;
         FrameLayout fm = (FrameLayout) findViewById(R.id.main);
         fm.setOnTouchListener(new OnSwipeTouchListener(Mainscreen.this){
+
             ObjectAnimator animation;
             ImageView img_animation = (ImageView) findViewById(R.id.player);
+
             public void onSwipeTop() {
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", img_animation.getTranslationY(), img_animation.getTranslationY()-positionH1);
+                float fromY = img_animation.getTranslationY();
+                float toY = img_animation.getTranslationY()-stepH;
+                if (whereIs==1 && toY<=stepH){
+                    points++;
+                    whereIs=0;
+                }
+                if (toY<=0){
+                    toY=0;
+                }
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", fromY, toY);
                 animation.start();
                 animation.setDuration(500);
             }
             public void onSwipeRight() {
-                animation = ObjectAnimator.ofFloat(img_animation, "translationX", img_animation.getTranslationX(), img_animation.getTranslationX()+position);
+                float fromX = img_animation.getTranslationX();
+                float toX = img_animation.getTranslationX()+stepW;
+                if (toX>=lastW){
+                    toX=lastW;
+                }
+                animation = ObjectAnimator.ofFloat(img_animation, "translationX", fromX, toX);
                 animation.start();
                 animation.setDuration(500);
             }
             public void onSwipeLeft() {
-                animation = ObjectAnimator.ofFloat(img_animation, "translationX", img_animation.getTranslationX(), img_animation.getTranslationX()-position);
+                float fromX = img_animation.getTranslationX();
+                float toX = img_animation.getTranslationX()-stepW;
+                if (toX<=0){
+                    toX=0;
+                }
+                animation = ObjectAnimator.ofFloat(img_animation, "translationX", fromX, toX);
                 animation.start();
                 animation.setDuration(500);
             }
             public void onSwipeBottom() {
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", img_animation.getTranslationY(), img_animation.getTranslationY()+positionH1);
+                float fromY = img_animation.getTranslationY();
+                float toY = img_animation.getTranslationY()+stepH;
+                if (whereIs==0 && toY>=lastH){
+                    points++;
+                    whereIs=1;
+                }
+                if (toY>=lastH){
+                    toY=lastH;
+                }
+                animation = ObjectAnimator.ofFloat(img_animation, "translationY", fromY, toY);
                 animation.start();
                 animation.setDuration(500);
             }
@@ -209,60 +254,6 @@ public class Mainscreen extends AppCompatActivity {
         timer.schedule(timerTask, 0, 2500);
     }
 
-    public void move(View view){
-
-        ObjectAnimator animation;
-        ImageView img_animation = (ImageView) findViewById(R.id.player);
-
-
-        switch (whereIs){
-
-            case 0:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH0, positionH1);
-                animation.start();
-                animation.setDuration(500);
-                whereIs++;
-                break;
-
-            case 1:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH1, positionH2);
-                animation.start();
-                animation.setDuration(500);
-                whereIs++;
-                break;
-
-            case 2:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH2, positionH3);
-                animation.start();
-                animation.setDuration(500);
-                whereIs++;
-                break;
-
-            case 3:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH3, positionH2);
-                animation.start();
-                animation.setDuration(500);
-                whereIs++;
-                break;
-
-            case 4:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH2, positionH1);
-                animation.start();
-                animation.setDuration(500);
-                whereIs++;
-                break;
-
-            case 5:
-                animation = ObjectAnimator.ofFloat(img_animation, "translationY", positionH1, positionH0);
-                animation.start();
-                animation.setDuration(500);
-                points++;
-                whereIs=0;
-                break;
-        }
-
-    }
-
     public void animateStreet(){
 
         ImageView rocketImage = (ImageView) findViewById(R.id.imv);
@@ -293,7 +284,7 @@ public class Mainscreen extends AppCompatActivity {
                 final FrameLayout fl = (FrameLayout) findViewById(R.id.main);
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
                 fl.addView(iv,lp);
-                ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", positionH1, positionH1);
+                ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", stepH, stepH);
                 positionchange.start();
                 final ObjectAnimator animation = ObjectAnimator.ofFloat(iv, "translationX", -400f, positionW0*2);
                 animation.start();
@@ -318,7 +309,7 @@ public class Mainscreen extends AppCompatActivity {
                 FrameLayout fl = (FrameLayout) findViewById(R.id.main);
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT);
                 fl.addView(iv,lp);
-                ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", positionH2, positionH2);
+                ObjectAnimator positionchange = ObjectAnimator.ofFloat(iv, "translationY", stepH*2, stepH*2);
                 positionchange.start();
                 final ObjectAnimator animation = ObjectAnimator.ofFloat(iv, "translationX", positionW0*2, -400f);
                 animation.start();
@@ -342,35 +333,20 @@ public class Mainscreen extends AppCompatActivity {
         }
     }
 
-public void endGame(Context context)
-{
-    gameOn=false;
-    gameSong.stop();
-    brsound.start();
+    public void endGame(Context context)
+    {
+        gameOn=false;
+        gameSong.stop();
+        brsound.start();
 
-    new AlertDialog.Builder(context)
-            .setTitle("Sanguinetti was Wrecked!")
-            .setMessage("He was able to develop Bubbly Invasion but he couldn't cross the road!\nYou scored "+points+" points!\nWould you like to play again?")
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Mainscreen.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                }
-            })
-            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Mainscreen.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                }
-            })
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show();
-}
+
+        Intent intent = new Intent(Mainscreen.this, EndActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.putExtra("score", Integer.toString(points));
+        startActivity(intent);
+
+    }
 
 }
