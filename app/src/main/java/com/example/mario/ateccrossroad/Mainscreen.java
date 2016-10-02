@@ -138,7 +138,7 @@ public class Mainscreen extends AppCompatActivity {
             myChar = new Chars(R.raw.song, R.drawable.playeranime);
         }
         if (player==2) {
-            myChar = new Chars(R.raw.song, R.drawable.playeranime);
+            myChar = new Chars(R.raw.nuno, R.drawable.nunoanime);
         }
         if (player==3) {
             myChar = new Chars(R.raw.dariosong, R.drawable.darioanime);

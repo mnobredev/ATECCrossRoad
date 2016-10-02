@@ -74,15 +74,15 @@
 
         <ImageButton
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="bottom"
             android:id="@+id/dario"
             android:layout_marginBottom="60dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
 
-            android:background="@drawable/dario"
+            android:background="@drawable/dario1"
             />
 
         <TextView
@@ -100,10 +100,10 @@
 
         <ImageButton
             android:id="@+id/nsilva"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/charm1"
+            android:background="@drawable/nuno1"
             android:layout_alignBottom="@+id/sangui"
             android:layout_centerHorizontal="true" />
 

@@ -1,0 +1,6 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:visible="true">
+    <item android:drawable="@drawable/nuno1" android:duration="200" />
+    <item android:drawable="@drawable/nuno2" android:duration="200" />
+    <item android:drawable="@drawable/nuno3" android:duration="200" />
+</animation-list>
